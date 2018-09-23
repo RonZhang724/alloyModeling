@@ -17,7 +17,7 @@ fact InBound {
   // All indexes should be greater than or equal to 0 and less than
   // the array length.
   -- TODO: Your code starts here.	
-	all a : Array.i2e.Element | a >= 0 and a < Array.length
+	all idx : Array.i2e.Element | idx >= 0 and idx < Array.length
   // Array length should be greater than or equal to 0.
   -- TODO: Your code starts here.
 	all a : Array | a.length >= 0
@@ -27,9 +27,16 @@ fact InBound {
 pred NoConflict() {
   // Each index maps to at most one element.
   -- TODO: Your code starts here.
+	// each idx map to exactly one element (but might map to the same element
 	all idx : Array.i2e.Element | lone Array.i2e[idx]
+	// make sure that two unique idices map to unique elements 
 	all idx1, idx2 : Array.i2e.Element | idx1 != idx2 => Array.i2e[idx1] != Array.i2e[idx2]
 	
 }
 
-run NoConflict for 5 but exactly 5 Element
+/*
+fact Debug {
+	Array.length = 5
+}
+*/
+run NoConflict for 5
