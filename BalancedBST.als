@@ -15,13 +15,14 @@ fact Reachable {
 // Part (a)
 fact Acyclic {
   all n : Node {
-    // There are no directed cycles, i.e., a node is not reachable
-    // from itself along one or more traversals of left or right.
-    -- TODO: Your code starts here.
+	// There are no directed cycles, i.e., a node is not reachable
+	// from itself along one or more traversals of left or right.
+	-- TODO: Your code starts here.
+	no n : Node | 
 
     // A node cannot have more than one parent.
     -- TODO: Your code starts here.
-
+    all n : Node | one n.parent
     // A node cannot have another node as both its left child and
     // right child.
     -- TODO: Your code starts here.
