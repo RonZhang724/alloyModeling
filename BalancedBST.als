@@ -15,17 +15,19 @@ fact Reachable {
 // Part (a)
 fact Acyclic {
   all n : Node {
-	// There are no directed cycles, i.e., a node is not reachable
-	// from itself along one or more traversals of left or right.
-	-- TODO: Your code starts here.
-	no n : Node | 
+    // There are no directed cycles, i.e., a node is not reachable
+    // from itself along one or more traversals of left or right.
+    -- TODO: Your code starts here.
+	n !in n.^(left + right)
 
     // A node cannot have more than one parent.
     -- TODO: Your code starts here.
-    all n : Node | one n.parent
+	(some t : BinaryTree | t.root = n and no n.~(left + right)) or one n.~(left + right)
+
     // A node cannot have another node as both its left child and
     // right child.
     -- TODO: Your code starts here.
+	some n.(left+right) => n.left != n.right
   }
 }
 
@@ -34,9 +36,10 @@ pred Sorted() {
   all n: Node {
     // All elements in the n's left subtree are smaller than the n's elem.
     -- TODO: Your code starts here.
-
+	some n.left => all subNode : n.left.^(left+right) + n.left | n.elem > subNode.elem
     // All elements in the n's right subtree are bigger than the n's elem.
     -- TODO: Your code starts here.
+	some n.right => all subNode : n.right.^(left+right) + n.right | n.elem < subNode.elem
   }
 }
 
@@ -44,12 +47,14 @@ pred Sorted() {
 pred HasAtMostOneChild(n: Node) {
   // Node n has at most one child.
   -- TODO: Your code starts here.
+	# n.^(left + right) <= 1
 }
 
 // Part (c.2)
 fun Depth(n: Node): one Int {
   // The number of nodes from the tree's root to n.
   -- TODO: Your code starts here.
+  # n.^(~(left + right))
 }
 
 // Part (c.3)
@@ -59,6 +64,7 @@ pred Balanced() {
     // then the depths of n1 and n2 differ by at most 1.
     // Hint: Be careful about the operator priority.
     -- TODO: Your code starts here.
+	HasAtMostOneChild[n1] and HasAtMostOneChild[n2] => Depth[n1] - Depth[n2] <= 1 
   }
 }
 
